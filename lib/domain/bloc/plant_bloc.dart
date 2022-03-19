@@ -13,6 +13,13 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
   PlantBloc(Database database)
       : _db = database,
         super(LoadingState()) {
+    on<InitializeEvent>(((event, emit) async {
+      emit(LoadingState());
+      await _db.initialize();
+      List<Plant> plants = await _db.plantDao.getAll();
+      emit(HomeState(plants));
+    }));
+
     on<GoHomeEvent>((event, emit) async {
       emit(LoadingState());
       List<Plant> plants = await _db.plantDao.getAll();

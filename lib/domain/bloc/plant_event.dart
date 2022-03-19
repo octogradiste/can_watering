@@ -4,6 +4,11 @@ abstract class PlantEvent extends Equatable {
   const PlantEvent();
 }
 
+class InitializeEvent extends PlantEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class GoHomeEvent extends PlantEvent {
   @override
   List<Object?> get props => [];
