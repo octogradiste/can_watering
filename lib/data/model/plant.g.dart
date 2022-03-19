@@ -77,7 +77,7 @@ class _PlantWebAdapter extends IsarWebTypeAdapter<Plant> {
               .toLocal()
           : DateTime.fromMillisecondsSinceEpoch(0),
       id: IsarNative.jsObjectGet(jsObj, 'id'),
-      imagePath: IsarNative.jsObjectGet(jsObj, 'imagePath') ?? '',
+      imagePath: IsarNative.jsObjectGet(jsObj, 'imagePath'),
       location: IsarNative.jsObjectGet(jsObj, 'location') ?? '',
       modified: IsarNative.jsObjectGet(jsObj, 'modified') != null
           ? DateTime.fromMillisecondsSinceEpoch(
@@ -106,7 +106,7 @@ class _PlantWebAdapter extends IsarWebTypeAdapter<Plant> {
       case 'id':
         return (IsarNative.jsObjectGet(jsObj, 'id')) as P;
       case 'imagePath':
-        return (IsarNative.jsObjectGet(jsObj, 'imagePath') ?? '') as P;
+        return (IsarNative.jsObjectGet(jsObj, 'imagePath')) as P;
       case 'location':
         return (IsarNative.jsObjectGet(jsObj, 'location') ?? '') as P;
       case 'modified':
@@ -141,8 +141,11 @@ class _PlantNativeAdapter extends IsarNativeTypeAdapter<Plant> {
     final value1 = object.hashCode;
     final _hashCode = value1;
     final value2 = object.imagePath;
-    final _imagePath = IsarBinaryWriter.utf8Encoder.convert(value2);
-    dynamicSize += (_imagePath.length) as int;
+    IsarUint8List? _imagePath;
+    if (value2 != null) {
+      _imagePath = IsarBinaryWriter.utf8Encoder.convert(value2);
+    }
+    dynamicSize += (_imagePath?.length ?? 0) as int;
     final value3 = object.location;
     final _location = IsarBinaryWriter.utf8Encoder.convert(value3);
     dynamicSize += (_location.length) as int;
@@ -174,7 +177,7 @@ class _PlantNativeAdapter extends IsarNativeTypeAdapter<Plant> {
     final object = Plant(
       created: reader.readDateTime(offsets[0]),
       id: id,
-      imagePath: reader.readString(offsets[2]),
+      imagePath: reader.readStringOrNull(offsets[2]),
       location: reader.readString(offsets[3]),
       modified: reader.readDateTime(offsets[4]),
       name: reader.readString(offsets[5]),
@@ -193,7 +196,7 @@ class _PlantNativeAdapter extends IsarNativeTypeAdapter<Plant> {
       case 1:
         return (reader.readLong(offset)) as P;
       case 2:
-        return (reader.readString(offset)) as P;
+        return (reader.readStringOrNull(offset)) as P;
       case 3:
         return (reader.readString(offset)) as P;
       case 4:
@@ -441,8 +444,16 @@ extension PlantQueryFilter on QueryBuilder<Plant, Plant, QFilterCondition> {
     ));
   }
 
+  QueryBuilder<Plant, Plant, QAfterFilterCondition> imagePathIsNull() {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.isNull,
+      property: 'imagePath',
+      value: null,
+    ));
+  }
+
   QueryBuilder<Plant, Plant, QAfterFilterCondition> imagePathEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return addFilterConditionInternal(FilterCondition(
@@ -454,7 +465,7 @@ extension PlantQueryFilter on QueryBuilder<Plant, Plant, QFilterCondition> {
   }
 
   QueryBuilder<Plant, Plant, QAfterFilterCondition> imagePathGreaterThan(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
     bool include = false,
   }) {
@@ -468,7 +479,7 @@ extension PlantQueryFilter on QueryBuilder<Plant, Plant, QFilterCondition> {
   }
 
   QueryBuilder<Plant, Plant, QAfterFilterCondition> imagePathLessThan(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
     bool include = false,
   }) {
@@ -482,8 +493,8 @@ extension PlantQueryFilter on QueryBuilder<Plant, Plant, QFilterCondition> {
   }
 
   QueryBuilder<Plant, Plant, QAfterFilterCondition> imagePathBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool caseSensitive = true,
     bool includeLower = true,
     bool includeUpper = true,
@@ -998,7 +1009,7 @@ extension PlantQueryProperty on QueryBuilder<Plant, Plant, QQueryProperty> {
     return addPropertyNameInternal('id');
   }
 
-  QueryBuilder<Plant, String, QQueryOperations> imagePathProperty() {
+  QueryBuilder<Plant, String?, QQueryOperations> imagePathProperty() {
     return addPropertyNameInternal('imagePath');
   }
 
