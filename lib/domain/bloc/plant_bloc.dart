@@ -33,7 +33,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
         created: DateTime.now(),
         modified: DateTime.now(),
       );
-      emit(FormState(template, false));
+      emit(PlantFormState(template, false));
     });
 
     on<SaveEvent>((event, emit) async {
@@ -55,7 +55,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
     });
 
     on<ModifyEvent>(((event, emit) {
-      emit(FormState(event.plant, true));
+      emit(PlantFormState(event.plant, true));
     }));
 
     on<WateringEvent>(((event, emit) {
