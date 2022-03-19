@@ -62,6 +62,6 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
       _db.wateringActionDao.add(event.action);
     }));
 
-    add(GoHomeEvent());
+    add(InitializeEvent());
   }
 }
