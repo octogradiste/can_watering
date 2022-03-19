@@ -26,24 +26,26 @@ class Application extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (context) => PlantBloc(locator<Database>()),
-        child: BlocBuilder(
-          bloc: context.read<PlantBloc>(),
-          builder: (context, state) {
-            if (state is LoadingState) {
-              return const LoadingScreen();
-            } else if (state is HomeState) {
-              return HomePage(plants: state.plants);
-            } else if (state is PlantFormState) {
-              return PlantFormPage(
-                template: state.template,
-                modify: state.modify,
-              );
-            } else if (state is DetailState) {
-              return DetailPage(plant: state.plant);
-            }
-            return const UnknownStateScreen();
-          },
-        ),
+        child: Builder(builder: (context) {
+          return BlocBuilder(
+            bloc: context.read<PlantBloc>(),
+            builder: (context, state) {
+              if (state is LoadingState) {
+                return const LoadingScreen();
+              } else if (state is HomeState) {
+                return HomePage(plants: state.plants);
+              } else if (state is PlantFormState) {
+                return PlantFormPage(
+                  template: state.template,
+                  modify: state.modify,
+                );
+              } else if (state is DetailState) {
+                return DetailPage(plant: state.plant);
+              }
+              return const UnknownStateScreen();
+            },
+          );
+        }),
       ),
     );
   }
