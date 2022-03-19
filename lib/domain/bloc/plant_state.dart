@@ -27,7 +27,7 @@ class DetailState extends PlantState {
   List<Object?> get props => [plant];
 }
 
-class FormState extends PlantState {
+class PlantFormState extends PlantState {
   /// A 'template' plant to fill in the form with some defaults.
   final Plant template;
 
@@ -35,7 +35,7 @@ class FormState extends PlantState {
   /// or if is creating a new plant.
   final bool modify;
 
-  const FormState(this.template, this.modify);
+  const PlantFormState(this.template, this.modify);
 
   @override
   List<Object?> get props => [template, modify];
