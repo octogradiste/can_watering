@@ -1,5 +1,7 @@
 import 'package:can_watering/data/model/plant.dart';
+import 'package:can_watering/domain/bloc/plant_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
   final List<Plant> plants;
@@ -13,10 +15,19 @@ class HomePage extends StatelessWidget {
         title: const Text('Can Watering'),
       ),
       body: ListView.builder(
-          itemCount: plants.length,
-          itemBuilder: ((context, index) {
-            return PlantTile(plant: plants[index]);
-          })),
+        itemCount: plants.length,
+        itemBuilder: ((context, index) {
+          return PlantTile(plant: plants[index]);
+        }),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          context.read<PlantBloc>().add(AddEvent());
+        },
+        label: const Text('Add'),
+        icon: const Icon(Icons.add),
+      ),
     );
   }
 }
@@ -32,6 +43,9 @@ class PlantTile extends StatelessWidget {
       child: ListTile(
         title: Text(plant.name),
         subtitle: Text(plant.location),
+        onTap: () {
+          context.read<PlantBloc>().add(DetailEvent(plant));
+        },
       ),
     );
   }
