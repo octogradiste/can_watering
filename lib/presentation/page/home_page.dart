@@ -12,9 +12,11 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Can Watering'),
       ),
-      body: ListView.builder(itemBuilder: ((context, index) {
-        return PlantTile(plant: plants[index]);
-      })),
+      body: ListView.builder(
+          itemCount: plants.length,
+          itemBuilder: ((context, index) {
+            return PlantTile(plant: plants[index]);
+          })),
     );
   }
 }
