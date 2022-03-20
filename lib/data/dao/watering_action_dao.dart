@@ -8,7 +8,7 @@ class WateringActionDao {
   WateringActionDao(Isar isar) : _isar = isar;
 
   Future<List<WateringAction>> getAllActionsOf(Plant plant) {
-    assert(plant.id != null);
+    if (plant.id == null) return Future.value([]);
     return _isar.wateringActions.where().plantIdEqualTo(plant.id!).findAll();
   }
 

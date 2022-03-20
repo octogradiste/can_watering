@@ -15,7 +15,7 @@ class WateringAction extends Equatable {
   final DateTime date;
 
   const WateringAction({
-    required this.id,
+    this.id,
     required this.plantId,
     required this.amount,
     required this.date,
