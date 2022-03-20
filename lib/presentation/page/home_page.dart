@@ -51,14 +51,15 @@ class PlantTile extends StatelessWidget {
         child: Stack(
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (plant.imagePath != null)
                   Hero(
                     tag: plant.id!,
                     child: Image.file(
                       File(plant.imagePath!),
-                      fit: BoxFit.fitWidth,
+                      height: 150,
+                      fit: BoxFit.fill,
                     ),
                   ),
                 Padding(
