@@ -24,93 +24,117 @@ class DetailPage extends StatelessWidget {
     PlantBloc bloc = context.read<PlantBloc>();
     return WillPopScope(
       onWillPop: () async {
-        bloc.add(GoHomeEvent());
-        return false;
+        bloc.add(HomeEvent());
+        return true;
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(plant.name),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              bloc.add(GoHomeEvent());
-            },
-          ),
-          actions: [PopupMenu(plant: plant)],
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            await showDialog(
-              context: context,
-              builder: (context) {
-                return WateringActionDialog(onWatering: (amount) {
-                  bloc.add(WateringEvent(plant, amount));
-                  Navigator.of(context).pop();
-                });
-              },
+      child: BlocBuilder<PlantBloc, PlantState>(
+        bloc: bloc,
+        builder: (context, state) {
+          if (state is DetailUpdateState) {
+            return DetailScreen(
+              plant: state.plant,
+              wateringActions: state.wateringActions,
             );
-          },
-          label: const Text('Give Water'),
-        ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (plant.imagePath != null)
-              Hero(
-                tag: plant.name,
-                child: Image(
-                  height: 250,
-                  fit: BoxFit.fill,
-                  image: FileImage(File(plant.imagePath!)),
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress != null) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      );
-                    }
-                    return child;
-                  },
+          }
+          return DetailScreen(plant: plant, wateringActions: wateringActions);
+        },
+      ),
+    );
+  }
+}
+
+class DetailScreen extends StatelessWidget {
+  const DetailScreen({
+    Key? key,
+    required this.plant,
+    required this.wateringActions,
+  }) : super(key: key);
+
+  final Plant plant;
+  final List<WateringAction> wateringActions;
+
+  @override
+  Widget build(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
+    PlantBloc bloc = context.read<PlantBloc>();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(plant.name),
+        actions: [PopupMenu(plant: plant)],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          await showDialog(
+            context: context,
+            builder: (context) {
+              return WateringActionDialog(onWatering: (amount) {
+                bloc.add(WateringEvent(plant, amount));
+                Navigator.of(context).pop();
+              });
+            },
+          );
+        },
+        label: const Text('Give Water'),
+      ),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (plant.imagePath != null)
+            Hero(
+              tag: plant.id!,
+              child: Image(
+                height: 250,
+                fit: BoxFit.fill,
+                image: FileImage(File(plant.imagePath!)),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress != null) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  }
+                  return child;
+                },
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  plant.name,
+                  style: textTheme.titleLarge,
                 ),
-              ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    plant.name,
-                    style: textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    plant.location,
-                    style: textTheme.titleMedium,
-                  ),
-                ],
-              ),
+                const SizedBox(height: 8),
+                Text(
+                  plant.location,
+                  style: textTheme.titleMedium,
+                ),
+              ],
             ),
-            Divider(
-              thickness: 2,
-              height: 2,
-              color: Theme.of(context).primaryColorLight,
+          ),
+          Divider(
+            thickness: 2,
+            height: 2,
+            color: Theme.of(context).primaryColorLight,
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 64),
+              itemCount: wateringActions.length,
+              itemBuilder: (((_, i) {
+                return WateringActionTile(wateringAction: wateringActions[i]);
+              })),
             ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 64),
-                itemCount: wateringActions.length,
-                itemBuilder: (((_, i) {
-                  return WateringActionTile(wateringAction: wateringActions[i]);
-                })),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -132,7 +156,9 @@ class WateringActionTile extends StatelessWidget {
         elevation: 6,
         child: ListTile(
           title: Text('${wateringAction.amount} ml'),
-          subtitle: Text(DateFormat.yMMMMEEEEd().format(wateringAction.date)),
+          subtitle: Text(
+            DateFormat.yMMMMEEEEd().add_Hm().format(wateringAction.date),
+          ),
         ),
       ),
     );
@@ -166,7 +192,7 @@ class _WateringActionDialogState extends State<WateringActionDialog> {
           ),
           Text(
             '$amount ml',
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.headline5,
           ),
           IconButton(
             onPressed: () => setState(() => amount += 50),

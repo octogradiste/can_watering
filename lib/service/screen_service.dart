@@ -10,6 +10,10 @@ class ScreenService {
         .push(MaterialPageRoute(builder: (_) => page));
   }
 
+  void popAll() {
+    _navigatorState.currentState!.popUntil(ModalRoute.withName('/'));
+  }
+
   void pop() {
     _navigatorState.currentState!.pop();
   }

@@ -30,97 +30,101 @@ class _PlantFormPageState extends State<PlantFormPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        context.read<PlantBloc>().add(GoHomeEvent());
-        return false;
+        context.read<PlantBloc>().add(HomeEvent());
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
           title:
               Text(widget.modify ? 'Modify your plant' : 'Add your new plant'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              context.read<PlantBloc>().add(GoHomeEvent());
-            },
-          ),
         ),
         body: Form(
           key: _formKey,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text('Name'),
-                      helperText: "What's the name of your plant?",
-                    ),
-                    initialValue: name,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) => name = value!,
-                  ),
-                  const SizedBox(height: 24),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text('Location'),
-                      helperText: 'Where in your home is your plant?',
-                    ),
-                    initialValue: location,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) => location = value!,
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {
-                          path = await bloc.pickImage();
-                        },
-                        child: const Text('Pick Image'),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              label: Text('Name'),
+                              helperText: "What's the name of your plant?",
+                            ),
+                            initialValue: name,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) => name = value!,
+                          ),
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              label: Text('Location'),
+                              helperText: 'Where in your home is your plant?',
+                            ),
+                            initialValue: location,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) => location = value!,
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              TextButton(
+                                onPressed: () async {
+                                  path = await bloc.pickImage();
+                                },
+                                child: const Text('Pick Image'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  path = await bloc.choseImage();
+                                },
+                                child: const Text('Chose Image'),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 48),
+                        ],
                       ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          path = await bloc.choseImage();
-                        },
-                        child: const Text('Chose Image'),
-                      ),
-                    ],
+                    ),
                   ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        Plant plant = Plant(
-                          name: name,
-                          location: location,
-                          imagePath: path,
-                          created: widget.modify
-                              ? widget.template.created
-                              : DateTime.now(),
-                          modified: DateTime.now(),
-                        );
-                        bloc.add(SaveEvent(plant));
-                      }
-                    },
-                    child: const Text('Save'),
-                  ),
-                ],
-              ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      Plant plant = Plant(
+                        name: name,
+                        location: location,
+                        imagePath: path,
+                        created: widget.modify
+                            ? widget.template.created
+                            : DateTime.now(),
+                        modified: DateTime.now(),
+                      );
+                      bloc.add(SaveEvent(plant));
+                    }
+                  },
+                  child: const Text('Save'),
+                ),
+              ],
             ),
           ),
         ),

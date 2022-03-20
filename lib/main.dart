@@ -20,15 +20,18 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: locator<ScreenService>().navigatorKey,
-      title: 'Can Watering',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+    return BlocProvider(
+      create: (context) => PlantBloc(
+        locator<Database>(),
+        locator<ScreenService>(),
       ),
-      home: BlocProvider(
-        create: (context) => PlantBloc(locator<Database>()),
-        child: Builder(builder: (context) {
+      child: MaterialApp(
+        navigatorKey: locator<ScreenService>().navigatorKey,
+        title: 'Can Watering',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: Builder(builder: (context) {
           return BlocBuilder(
             bloc: context.read<PlantBloc>(),
             builder: (context, state) {
@@ -36,12 +39,7 @@ class Application extends StatelessWidget {
                 return const LoadingScreen();
               } else if (state is HomeState) {
                 return HomePage(plants: state.plants);
-              } else if (state is PlantFormState) {
-                return PlantFormPage(
-                  template: state.template,
-                  modify: state.modify,
-                );
-              } else if (state is DetailState) {
+              } else if (state is DetailUpdateState) {
                 return DetailPage(
                   plant: state.plant,
                   wateringActions: state.wateringActions,

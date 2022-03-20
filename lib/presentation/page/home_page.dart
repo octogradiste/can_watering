@@ -17,6 +17,7 @@ class HomePage extends StatelessWidget {
         title: const Text('Can Watering'),
       ),
       body: ListView.builder(
+        padding: const EdgeInsets.only(bottom: 64),
         itemCount: plants.length,
         itemBuilder: ((context, index) {
           return PlantTile(plant: plants[index]);
@@ -54,7 +55,7 @@ class PlantTile extends StatelessWidget {
               children: [
                 if (plant.imagePath != null)
                   Hero(
-                    tag: plant.name,
+                    tag: plant.id!,
                     child: Image.file(
                       File(plant.imagePath!),
                       fit: BoxFit.fitWidth,

@@ -9,7 +9,7 @@ class InitializeEvent extends PlantEvent {
   List<Object?> get props => [];
 }
 
-class GoHomeEvent extends PlantEvent {
+class HomeEvent extends PlantEvent {
   @override
   List<Object?> get props => [];
 }

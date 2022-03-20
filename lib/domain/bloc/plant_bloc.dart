@@ -4,6 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:can_watering/data/database.dart';
 import 'package:can_watering/data/model/plant.dart';
 import 'package:can_watering/data/model/watering_action.dart';
+import 'package:can_watering/presentation/page/detail_page.dart';
+import 'package:can_watering/presentation/page/plant_form_page.dart';
+import 'package:can_watering/service/screen_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,9 +16,11 @@ part 'plant_state.dart';
 
 class PlantBloc extends Bloc<PlantEvent, PlantState> {
   final Database _db;
+  final ScreenService _screenService;
 
-  PlantBloc(Database database)
+  PlantBloc(Database database, ScreenService service)
       : _db = database,
+        _screenService = service,
         super(LoadingState()) {
     on<InitializeEvent>(((event, emit) async {
       emit(LoadingState());
@@ -24,19 +29,22 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
       emit(HomeState(plants));
     }));
 
-    on<GoHomeEvent>((event, emit) async {
+    on<HomeEvent>((event, emit) async {
       List<Plant> plants = await _db.plantDao.getAll();
       emit(HomeState(plants));
     });
 
     on<AddEvent>((event, emit) {
       Plant template = Plant(
-        name: "Name",
-        location: "Location",
+        name: "",
+        location: "",
         created: DateTime.now(),
         modified: DateTime.now(),
       );
-      emit(PlantFormState(template, false));
+      _screenService.navigateTo(PlantFormPage(
+        template: template,
+        modify: false,
+      ));
     });
 
     on<SaveEvent>((event, emit) async {
@@ -59,11 +67,15 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
 
       List<Plant> plants = await _db.plantDao.getAll();
       emit(HomeState(plants));
+      _screenService.popAll();
     });
 
     on<DetailEvent>((event, emit) async {
       final actions = await _db.wateringActionDao.getAllActionsOf(event.plant);
-      emit(DetailState(event.plant, actions));
+      _screenService.navigateTo(DetailPage(
+        plant: event.plant,
+        wateringActions: actions,
+      ));
     });
 
     on<DeleteEvent>((event, emit) async {
@@ -74,10 +86,14 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
       }
       List<Plant> plants = await _db.plantDao.getAll();
       emit(HomeState(plants));
+      _screenService.pop();
     });
 
     on<ModifyEvent>(((event, emit) {
-      emit(PlantFormState(event.plant, true));
+      _screenService.navigateTo(PlantFormPage(
+        template: event.plant,
+        modify: true,
+      ));
     }));
 
     on<WateringEvent>(((event, emit) async {
@@ -88,7 +104,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
       );
       await _db.wateringActionDao.add(action);
       final actions = await _db.wateringActionDao.getAllActionsOf(event.plant);
-      emit(DetailState(event.plant, actions));
+      emit(DetailUpdateState(event.plant, actions));
     }));
 
     add(InitializeEvent());
