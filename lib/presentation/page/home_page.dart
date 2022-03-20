@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:can_watering/data/model/plant.dart';
 import 'package:can_watering/domain/bloc/plant_bloc.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ class HomePage extends StatelessWidget {
         onPressed: () {
           context.read<PlantBloc>().add(AddEvent());
         },
-        label: const Text('Add'),
+        label: const Text('Add Plant'),
         icon: const Icon(Icons.add),
       ),
     );
@@ -39,13 +41,49 @@ class PlantTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(plant.name),
-        subtitle: Text(plant.location),
-        onTap: () {
-          context.read<PlantBloc>().add(DetailEvent(plant));
-        },
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 6,
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (plant.imagePath != null)
+                  Hero(
+                    tag: plant.name,
+                    child: Image.file(
+                      File(plant.imagePath!),
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
+                  child: Text(
+                    plant.name,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                )
+              ],
+            ),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    context.read<PlantBloc>().add(DetailEvent(plant));
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

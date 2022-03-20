@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'package:can_watering/data/model/plant.dart';
 import 'package:can_watering/domain/bloc/plant_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 class PlantFormPage extends StatefulWidget {
   final Plant template;
@@ -24,17 +20,13 @@ class PlantFormPage extends StatefulWidget {
 class _PlantFormPageState extends State<PlantFormPage> {
   final _formKey = GlobalKey<FormState>();
 
-  Future<String?> _pickImage() async {
-    final picker = ImagePicker();
-    final image = await picker.getImage(source: ImageSource.camera);
-    return image?.path;
-  }
-
   @override
   Widget build(BuildContext context) {
-    late String name;
-    late String location;
-    late String? path;
+    String name = widget.template.name;
+    String location = widget.template.location;
+    String? path = widget.template.imagePath;
+
+    final bloc = context.read<PlantBloc>();
 
     return WillPopScope(
       onWillPop: () async {
@@ -65,7 +57,7 @@ class _PlantFormPageState extends State<PlantFormPage> {
                       label: Text('Name'),
                       helperText: "What's the name of your plant?",
                     ),
-                    initialValue: widget.template.name,
+                    initialValue: name,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -81,7 +73,7 @@ class _PlantFormPageState extends State<PlantFormPage> {
                       label: Text('Location'),
                       helperText: 'Where in your home is your plant?',
                     ),
-                    initialValue: widget.template.location,
+                    initialValue: location,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -91,23 +83,28 @@ class _PlantFormPageState extends State<PlantFormPage> {
                     onSaved: (value) => location = value!,
                   ),
                   const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () async {
-                      path = await _pickImage();
-                    },
-                    child: const Text('Pick image'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          path = await bloc.pickImage();
+                        },
+                        child: const Text('Pick Image'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          path = await bloc.choseImage();
+                        },
+                        child: const Text('Chose Image'),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-                        if (path != null) {
-                          final dir = await getApplicationSupportDirectory();
-                          final image = File(path!);
-                          final saveAt = '${dir.path}/${path!.split('/').last}';
-                          await image.copy(saveAt);
-                        }
                         Plant plant = Plant(
                           name: name,
                           location: location,
@@ -117,7 +114,7 @@ class _PlantFormPageState extends State<PlantFormPage> {
                               : DateTime.now(),
                           modified: DateTime.now(),
                         );
-                        context.read<PlantBloc>().add(SaveEvent(plant));
+                        bloc.add(SaveEvent(plant));
                       }
                     },
                     child: const Text('Save'),

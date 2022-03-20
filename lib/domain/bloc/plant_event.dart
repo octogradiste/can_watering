@@ -56,10 +56,11 @@ class ModifyEvent extends PlantEvent {
 }
 
 class WateringEvent extends PlantEvent {
-  final WateringAction action;
+  final Plant plant;
+  final int amount;
 
-  const WateringEvent(this.action);
+  const WateringEvent(this.plant, this.amount);
 
   @override
-  List<Object?> get props => [action];
+  List<Object?> get props => [plant, amount];
 }

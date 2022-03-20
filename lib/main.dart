@@ -22,7 +22,7 @@ class Application extends StatelessWidget {
     return MaterialApp(
       title: 'Can Watering',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: BlocProvider(
         create: (context) => PlantBloc(locator<Database>()),
@@ -40,7 +40,10 @@ class Application extends StatelessWidget {
                   modify: state.modify,
                 );
               } else if (state is DetailState) {
-                return DetailPage(plant: state.plant);
+                return DetailPage(
+                  plant: state.plant,
+                  wateringActions: state.wateringActions,
+                );
               }
               return const UnknownStateScreen();
             },

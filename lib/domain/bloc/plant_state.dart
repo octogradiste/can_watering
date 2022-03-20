@@ -20,11 +20,12 @@ class HomeState extends PlantState {
 
 class DetailState extends PlantState {
   final Plant plant;
+  final List<WateringAction> wateringActions;
 
-  const DetailState(this.plant);
+  const DetailState(this.plant, this.wateringActions);
 
   @override
-  List<Object?> get props => [plant];
+  List<Object?> get props => [plant, wateringActions];
 }
 
 class PlantFormState extends PlantState {
