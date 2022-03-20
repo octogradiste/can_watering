@@ -111,6 +111,7 @@ class _PlantFormPageState extends State<PlantFormPage> {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       Plant plant = Plant(
+                        id: widget.template.id,
                         name: name,
                         location: location,
                         imagePath: path,
