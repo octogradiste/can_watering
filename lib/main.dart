@@ -6,6 +6,7 @@ import 'package:can_watering/presentation/page/home_page.dart';
 import 'package:can_watering/presentation/page/plant_form_page.dart';
 import 'package:can_watering/presentation/screen/loading_screen.dart';
 import 'package:can_watering/presentation/screen/unknown_state_screen.dart';
+import 'package:can_watering/service/screen_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +21,7 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: locator<ScreenService>().navigatorKey,
       title: 'Can Watering',
       theme: ThemeData(
         primarySwatch: Colors.green,
