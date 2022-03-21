@@ -6,8 +6,10 @@ import 'package:can_watering/data/model/plant.dart';
 import 'package:can_watering/data/model/watering_action.dart';
 import 'package:can_watering/presentation/page/detail_page.dart';
 import 'package:can_watering/presentation/page/plant_form_page.dart';
+import 'package:can_watering/presentation/snack_bar/UndoSnackBar.dart';
 import 'package:can_watering/service/screen_service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -17,6 +19,8 @@ part 'plant_state.dart';
 class PlantBloc extends Bloc<PlantEvent, PlantState> {
   final Database _db;
   final ScreenService _screenService;
+
+  final ImagePicker _imagePicker = ImagePicker();
 
   PlantBloc(Database database, ScreenService service)
       : _db = database,
@@ -65,8 +69,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
         ));
       }
 
-      List<Plant> plants = await _db.plantDao.getAll();
-      emit(HomeState(plants));
+      add(HomeEvent());
       _screenService.popAll();
     });
 
@@ -80,13 +83,26 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
 
     on<DeleteEvent>((event, emit) async {
       await _db.plantDao.delete(event.plant);
-      if (event.plant.imagePath != null) {
-        final file = File(event.plant.imagePath!);
-        await file.delete();
-      }
-      List<Plant> plants = await _db.plantDao.getAll();
-      emit(HomeState(plants));
+      add(HomeEvent());
       _screenService.pop();
+      _screenService.showSnackBar(
+        UndoSnackBar(
+          message: 'Successfully deleted!',
+          onUndo: () async {
+            await _db.plantDao.add(event.plant);
+            add(HomeEvent());
+          },
+        ),
+        onClosed: (reason) async {
+          if (reason != SnackBarClosedReason.action) {
+            if (event.plant.imagePath != null) {
+              final file = File(event.plant.imagePath!);
+              await file.delete();
+            }
+            await _db.wateringActionDao.deleteAllActionsOf(event.plant);
+          }
+        },
+      );
     });
 
     on<ModifyEvent>(((event, emit) {
@@ -111,14 +127,12 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
   }
 
   Future<String?> takePicture() async {
-    final picker = ImagePicker();
-    final image = await picker.getImage(source: ImageSource.camera);
+    final image = await _imagePicker.getImage(source: ImageSource.camera);
     return image?.path;
   }
 
   Future<String?> choseImage() async {
-    final picker = ImagePicker();
-    final image = await picker.getImage(source: ImageSource.gallery);
+    final image = await _imagePicker.getImage(source: ImageSource.gallery);
     return image?.path;
   }
 }

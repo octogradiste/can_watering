@@ -20,7 +20,13 @@ class ScreenService {
     _navigatorState.currentState!.pop();
   }
 
-  void showSnackBar(SnackBar snackBar) {
-    _messengerState.currentState!.showSnackBar(snackBar);
+  void showSnackBar(
+    SnackBar snackBar, {
+    void Function(SnackBarClosedReason)? onClosed,
+  }) {
+    _messengerState.currentState!
+        .showSnackBar(snackBar)
+        .closed
+        .then((reason) => onClosed?.call(reason));
   }
 }

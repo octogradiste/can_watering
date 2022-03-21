@@ -17,4 +17,16 @@ class WateringActionDao {
       return await isar.wateringActions.put(action);
     });
   }
+
+  Future<int> deleteAllActionsOf(Plant plant) async {
+    if (plant.id != null) {
+      return _isar.writeTxn((isar) async {
+        return await isar.wateringActions
+            .where()
+            .plantIdEqualTo(plant.id!)
+            .deleteAll();
+      });
+    }
+    return 0;
+  }
 }
