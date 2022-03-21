@@ -27,6 +27,7 @@ class Application extends StatelessWidget {
       ),
       child: MaterialApp(
         navigatorKey: locator<ScreenService>().navigatorKey,
+        scaffoldMessengerKey: locator<ScreenService>().messengerKey,
         title: 'Can Watering',
         theme: ThemeData(
           primarySwatch: Colors.green,

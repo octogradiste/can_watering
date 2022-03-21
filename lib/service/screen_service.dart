@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class ScreenService {
   static final GlobalKey<NavigatorState> _navigatorState = GlobalKey();
+  static final GlobalKey<ScaffoldMessengerState> _messengerState = GlobalKey();
 
   GlobalKey<NavigatorState> get navigatorKey => _navigatorState;
+  GlobalKey<ScaffoldMessengerState> get messengerKey => _messengerState;
 
   Future<dynamic> navigateTo(Widget page) {
     return _navigatorState.currentState!
@@ -16,5 +18,9 @@ class ScreenService {
 
   void pop() {
     _navigatorState.currentState!.pop();
+  }
+
+  void showSnackBar(SnackBar snackBar) {
+    _messengerState.currentState!.showSnackBar(snackBar);
   }
 }
