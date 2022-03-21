@@ -7,7 +7,7 @@ class WateringDao {
 
   WateringDao(Isar isar) : _isar = isar;
 
-  Future<List<Watering>> getAllWateringsOf(Plant plant) {
+  Future<List<Watering>> getAllOf(Plant plant) {
     if (plant.id == null) return Future.value([]);
     return _isar.waterings.where().plantIdEqualTo(plant.id!).findAll();
   }
@@ -18,7 +18,7 @@ class WateringDao {
     });
   }
 
-  Future<int> deleteAllWateringsOf(Plant plant) async {
+  Future<int> deleteAllOf(Plant plant) async {
     if (plant.id != null) {
       return _isar.writeTxn((isar) async {
         return await isar.waterings
@@ -28,5 +28,12 @@ class WateringDao {
       });
     }
     return 0;
+  }
+
+  Future<bool> delete(Watering watering) async {
+    if (watering.id == null) return false;
+    return _isar.writeTxn((isar) async {
+      return await _isar.waterings.delete(watering.id!);
+    });
   }
 }

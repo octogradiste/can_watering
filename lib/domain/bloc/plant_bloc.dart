@@ -74,7 +74,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
     });
 
     on<DetailEvent>((event, emit) async {
-      final waterings = await _db.wateringDao.getAllWateringsOf(event.plant);
+      final waterings = await _db.wateringDao.getAllOf(event.plant);
       _screenService.navigateTo(DetailPage(
         plant: event.plant,
         waterings: waterings,
@@ -99,7 +99,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
               final file = File(event.plant.imagePath!);
               await file.delete();
             }
-            await _db.wateringDao.deleteAllWateringsOf(event.plant);
+            await _db.wateringDao.deleteAllOf(event.plant);
           }
         },
       );
@@ -119,7 +119,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
         plantId: event.plant.id!,
       );
       await _db.wateringDao.add(watering);
-      final waterings = await _db.wateringDao.getAllWateringsOf(event.plant);
+      final waterings = await _db.wateringDao.getAllOf(event.plant);
       emit(DetailUpdateState(event.plant, waterings));
     }));
 
