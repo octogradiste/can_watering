@@ -110,7 +110,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
     add(InitializeEvent());
   }
 
-  Future<String?> pickImage() async {
+  Future<String?> takePicture() async {
     final picker = ImagePicker();
     final image = await picker.getImage(source: ImageSource.camera);
     return image?.path;

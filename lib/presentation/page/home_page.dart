@@ -59,7 +59,7 @@ class PlantTile extends StatelessWidget {
                     child: Image.file(
                       File(plant.imagePath!),
                       height: 150,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 Padding(

@@ -86,7 +86,7 @@ class DetailScreen extends StatelessWidget {
               tag: plant.id!,
               child: Image(
                 height: 250,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 image: FileImage(File(plant.imagePath!)),
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {

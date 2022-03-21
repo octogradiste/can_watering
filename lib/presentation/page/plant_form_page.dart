@@ -20,12 +20,20 @@ class PlantFormPage extends StatefulWidget {
 class _PlantFormPageState extends State<PlantFormPage> {
   final _formKey = GlobalKey<FormState>();
 
+  late String name;
+  late String location;
+  late String? imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    name = widget.template.name;
+    location = widget.template.location;
+    imagePath = widget.template.imagePath;
+  }
+
   @override
   Widget build(BuildContext context) {
-    String name = widget.template.name;
-    String location = widget.template.location;
-    String? path = widget.template.imagePath;
-
     final bloc = context.read<PlantBloc>();
 
     return WillPopScope(
@@ -84,23 +92,31 @@ class _PlantFormPageState extends State<PlantFormPage> {
                           ),
                           const SizedBox(height: 24),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               TextButton(
                                 onPressed: () async {
-                                  path = await bloc.pickImage();
+                                  final path = await bloc.takePicture();
+                                  setState(() => imagePath = path);
                                 },
-                                child: const Text('Pick Image'),
+                                child: const Text('Take Picture'),
                               ),
                               TextButton(
                                 onPressed: () async {
-                                  path = await bloc.choseImage();
+                                  final path = await bloc.choseImage();
+                                  setState(() => imagePath = path);
                                 },
                                 child: const Text('Chose Image'),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 48),
+                          // const SizedBox(height: 6),
+                          Text(
+                            imagePath != null
+                                ? 'Image selected!'
+                                : 'No image selected...',
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
                         ],
                       ),
                     ),
@@ -114,7 +130,7 @@ class _PlantFormPageState extends State<PlantFormPage> {
                         id: widget.template.id,
                         name: name,
                         location: location,
-                        imagePath: path,
+                        imagePath: imagePath,
                         created: widget.modify
                             ? widget.template.created
                             : DateTime.now(),
