@@ -64,3 +64,13 @@ class WateringEvent extends PlantEvent {
   @override
   List<Object?> get props => [plant, amount];
 }
+
+class DeleteWateringEvent extends PlantEvent {
+  final Plant plant;
+  final Watering watering;
+
+  const DeleteWateringEvent(this.plant, this.watering);
+
+  @override
+  List<Object?> get props => [plant, watering];
+}

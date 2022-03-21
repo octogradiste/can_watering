@@ -123,6 +123,12 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
       emit(DetailUpdateState(event.plant, waterings));
     }));
 
+    on<DeleteWateringEvent>((event, emit) async {
+      await _db.wateringDao.delete(event.watering);
+      final waterings = await _db.wateringDao.getAllOf(event.plant);
+      emit(DetailUpdateState(event.plant, waterings));
+    });
+
     add(InitializeEvent());
   }
 

@@ -130,7 +130,12 @@ class DetailScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 64),
               itemCount: waterings.length,
               itemBuilder: (((_, i) {
-                return WateringTile(watering: waterings[i]);
+                return WateringTile(
+                  watering: waterings[i],
+                  onDelete: () {
+                    bloc.add(DeleteWateringEvent(plant, waterings[i]));
+                  },
+                );
               })),
             ),
           ),
@@ -141,9 +146,12 @@ class DetailScreen extends StatelessWidget {
 }
 
 class WateringTile extends StatelessWidget {
+  final void Function()? onDelete;
+
   const WateringTile({
     Key? key,
     required this.watering,
+    this.onDelete,
   }) : super(key: key);
 
   final Watering watering;
@@ -159,6 +167,7 @@ class WateringTile extends StatelessWidget {
           subtitle: Text(
             DateFormat.yMMMMEEEEd().add_Hm().format(watering.date),
           ),
+          trailing: IconButton(icon: Icon(Icons.delete), onPressed: onDelete),
         ),
       ),
     );
