@@ -1,6 +1,7 @@
 import 'package:can_watering/data/database.dart';
 import 'package:can_watering/domain/bloc/plant_bloc.dart';
 import 'package:can_watering/locator.dart';
+import 'package:can_watering/presentation/lib_color_schemes.dart';
 import 'package:can_watering/presentation/page/home_page.dart';
 import 'package:can_watering/presentation/screen/loading_screen.dart';
 import 'package:can_watering/presentation/screen/unknown_state_screen.dart';
@@ -27,14 +28,8 @@ class Application extends StatelessWidget {
         navigatorKey: locator<ScreenService>().navigatorKey,
         scaffoldMessengerKey: locator<ScreenService>().messengerKey,
         title: 'Can Watering',
-        theme: ThemeData(
-          brightness: Brightness.light,
-          primarySwatch: Colors.green,
-        ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          primarySwatch: Colors.green,
-        ),
+        theme: ThemeData(colorScheme: lightColorScheme),
+        darkTheme: ThemeData(colorScheme: darkColorScheme),
         themeMode: ThemeMode.system,
         home: Builder(builder: (context) {
           return BlocBuilder(
