@@ -28,8 +28,14 @@ class Application extends StatelessWidget {
         scaffoldMessengerKey: locator<ScreenService>().messengerKey,
         title: 'Can Watering',
         theme: ThemeData(
+          brightness: Brightness.light,
           primarySwatch: Colors.green,
         ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primarySwatch: Colors.green,
+        ),
+        themeMode: ThemeMode.system,
         home: Builder(builder: (context) {
           return BlocBuilder(
             bloc: context.read<PlantBloc>(),

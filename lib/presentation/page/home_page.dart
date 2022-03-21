@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Can Watering'),
+        title: const Text('Your Plants'),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.only(bottom: 64),
