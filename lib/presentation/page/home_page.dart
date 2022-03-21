@@ -64,16 +64,18 @@ class PlantTile extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Hero(
-                          tag: plant.id!,
-                          child: Image.file(
-                            File(plant.imagePath!),
-                            height: 150,
-                            fit: BoxFit.fill,
+                    child: ClipRRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Hero(
+                            tag: plant.id!,
+                            child: Image.file(
+                              File(plant.imagePath!),
+                              height: 150,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
                       ),
