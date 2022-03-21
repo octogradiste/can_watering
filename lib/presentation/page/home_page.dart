@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:can_watering/data/model/plant.dart';
 import 'package:can_watering/domain/bloc/plant_bloc.dart';
@@ -54,12 +55,28 @@ class PlantTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (plant.imagePath != null)
-                  Hero(
-                    tag: plant.id!,
-                    child: Image.file(
-                      File(plant.imagePath!),
-                      height: 150,
-                      fit: BoxFit.cover,
+                  Container(
+                    height: 150,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: FileImage(File(plant.imagePath!)),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Hero(
+                          tag: plant.id!,
+                          child: Image.file(
+                            File(plant.imagePath!),
+                            height: 150,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 Padding(
