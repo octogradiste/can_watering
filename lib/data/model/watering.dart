@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 
-part 'watering_action.g.dart';
+part 'watering.g.dart';
 
 @Collection()
-class WateringAction extends Equatable {
+class Watering extends Equatable {
   @Id()
   final int? id;
   @Index(type: IndexType.value)
@@ -14,7 +14,7 @@ class WateringAction extends Equatable {
   final int amount;
   final DateTime date;
 
-  const WateringAction({
+  const Watering({
     this.id,
     required this.plantId,
     required this.amount,

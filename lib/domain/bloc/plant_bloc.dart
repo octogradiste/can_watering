@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:can_watering/data/database.dart';
 import 'package:can_watering/data/model/plant.dart';
-import 'package:can_watering/data/model/watering_action.dart';
+import 'package:can_watering/data/model/watering.dart';
 import 'package:can_watering/presentation/page/detail_page.dart';
 import 'package:can_watering/presentation/page/plant_form_page.dart';
 import 'package:can_watering/presentation/snack_bar/UndoSnackBar.dart';
@@ -74,10 +74,10 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
     });
 
     on<DetailEvent>((event, emit) async {
-      final actions = await _db.wateringActionDao.getAllActionsOf(event.plant);
+      final waterings = await _db.wateringDao.getAllWateringsOf(event.plant);
       _screenService.navigateTo(DetailPage(
         plant: event.plant,
-        wateringActions: actions,
+        waterings: waterings,
       ));
     });
 
@@ -99,7 +99,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
               final file = File(event.plant.imagePath!);
               await file.delete();
             }
-            await _db.wateringActionDao.deleteAllActionsOf(event.plant);
+            await _db.wateringDao.deleteAllWateringsOf(event.plant);
           }
         },
       );
@@ -113,14 +113,14 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
     }));
 
     on<WateringEvent>(((event, emit) async {
-      final action = WateringAction(
+      final watering = Watering(
         amount: event.amount,
         date: DateTime.now(),
         plantId: event.plant.id!,
       );
-      await _db.wateringActionDao.add(action);
-      final actions = await _db.wateringActionDao.getAllActionsOf(event.plant);
-      emit(DetailUpdateState(event.plant, actions));
+      await _db.wateringDao.add(watering);
+      final waterings = await _db.wateringDao.getAllWateringsOf(event.plant);
+      emit(DetailUpdateState(event.plant, waterings));
     }));
 
     add(InitializeEvent());

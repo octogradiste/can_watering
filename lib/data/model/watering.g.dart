@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'watering_action.dart';
+part of 'watering.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -8,18 +8,18 @@ part of 'watering_action.dart';
 
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast
 
-extension GetWateringActionCollection on Isar {
-  IsarCollection<WateringAction> get wateringActions {
-    return getCollection('WateringAction');
+extension GetWateringCollection on Isar {
+  IsarCollection<Watering> get waterings {
+    return getCollection('Watering');
   }
 }
 
-final WateringActionSchema = CollectionSchema(
-  name: 'WateringAction',
+final WateringSchema = CollectionSchema(
+  name: 'Watering',
   schema:
-      '{"name":"WateringAction","idName":"id","properties":[{"name":"amount","type":"Long"},{"name":"date","type":"Long"},{"name":"hashCode","type":"Long"},{"name":"plantId","type":"Long"},{"name":"stringify","type":"Bool"}],"indexes":[{"name":"plantId","unique":false,"properties":[{"name":"plantId","type":"Value","caseSensitive":false}]}],"links":[]}',
-  nativeAdapter: const _WateringActionNativeAdapter(),
-  webAdapter: const _WateringActionWebAdapter(),
+      '{"name":"Watering","idName":"id","properties":[{"name":"amount","type":"Long"},{"name":"date","type":"Long"},{"name":"hashCode","type":"Long"},{"name":"plantId","type":"Long"},{"name":"stringify","type":"Bool"}],"indexes":[{"name":"plantId","unique":false,"properties":[{"name":"plantId","type":"Value","caseSensitive":false}]}],"links":[]}',
+  nativeAdapter: const _WateringNativeAdapter(),
+  webAdapter: const _WateringWebAdapter(),
   idName: 'id',
   propertyIds: {
     'amount': 0,
@@ -50,12 +50,11 @@ final WateringActionSchema = CollectionSchema(
   version: 2,
 );
 
-class _WateringActionWebAdapter extends IsarWebTypeAdapter<WateringAction> {
-  const _WateringActionWebAdapter();
+class _WateringWebAdapter extends IsarWebTypeAdapter<Watering> {
+  const _WateringWebAdapter();
 
   @override
-  Object serialize(
-      IsarCollection<WateringAction> collection, WateringAction object) {
+  Object serialize(IsarCollection<Watering> collection, Watering object) {
     final jsObj = IsarNative.newJsObject();
     IsarNative.jsObjectSet(jsObj, 'amount', object.amount);
     IsarNative.jsObjectSet(
@@ -68,9 +67,8 @@ class _WateringActionWebAdapter extends IsarWebTypeAdapter<WateringAction> {
   }
 
   @override
-  WateringAction deserialize(
-      IsarCollection<WateringAction> collection, dynamic jsObj) {
-    final object = WateringAction(
+  Watering deserialize(IsarCollection<Watering> collection, dynamic jsObj) {
+    final object = Watering(
       amount:
           IsarNative.jsObjectGet(jsObj, 'amount') ?? double.negativeInfinity,
       date: IsarNative.jsObjectGet(jsObj, 'date') != null
@@ -115,21 +113,15 @@ class _WateringActionWebAdapter extends IsarWebTypeAdapter<WateringAction> {
   }
 
   @override
-  void attachLinks(Isar isar, int id, WateringAction object) {}
+  void attachLinks(Isar isar, int id, Watering object) {}
 }
 
-class _WateringActionNativeAdapter
-    extends IsarNativeTypeAdapter<WateringAction> {
-  const _WateringActionNativeAdapter();
+class _WateringNativeAdapter extends IsarNativeTypeAdapter<Watering> {
+  const _WateringNativeAdapter();
 
   @override
-  void serialize(
-      IsarCollection<WateringAction> collection,
-      IsarRawObject rawObj,
-      WateringAction object,
-      int staticSize,
-      List<int> offsets,
-      AdapterAlloc alloc) {
+  void serialize(IsarCollection<Watering> collection, IsarRawObject rawObj,
+      Watering object, int staticSize, List<int> offsets, AdapterAlloc alloc) {
     var dynamicSize = 0;
     final value0 = object.amount;
     final _amount = value0;
@@ -155,9 +147,9 @@ class _WateringActionNativeAdapter
   }
 
   @override
-  WateringAction deserialize(IsarCollection<WateringAction> collection, int id,
+  Watering deserialize(IsarCollection<Watering> collection, int id,
       IsarBinaryReader reader, List<int> offsets) {
-    final object = WateringAction(
+    final object = Watering(
       amount: reader.readLong(offsets[0]),
       date: reader.readDateTime(offsets[1]),
       id: id,
@@ -188,24 +180,21 @@ class _WateringActionNativeAdapter
   }
 
   @override
-  void attachLinks(Isar isar, int id, WateringAction object) {}
+  void attachLinks(Isar isar, int id, Watering object) {}
 }
 
-extension WateringActionQueryWhereSort
-    on QueryBuilder<WateringAction, WateringAction, QWhere> {
-  QueryBuilder<WateringAction, WateringAction, QAfterWhere> anyId() {
+extension WateringQueryWhereSort on QueryBuilder<Watering, Watering, QWhere> {
+  QueryBuilder<Watering, Watering, QAfterWhere> anyId() {
     return addWhereClauseInternal(const WhereClause(indexName: null));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhere> anyPlantId() {
+  QueryBuilder<Watering, Watering, QAfterWhere> anyPlantId() {
     return addWhereClauseInternal(const WhereClause(indexName: 'plantId'));
   }
 }
 
-extension WateringActionQueryWhere
-    on QueryBuilder<WateringAction, WateringAction, QWhereClause> {
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause> idEqualTo(
-      int? id) {
+extension WateringQueryWhere on QueryBuilder<Watering, Watering, QWhereClause> {
+  QueryBuilder<Watering, Watering, QAfterWhereClause> idEqualTo(int? id) {
     return addWhereClauseInternal(WhereClause(
       indexName: null,
       lower: [id],
@@ -215,8 +204,7 @@ extension WateringActionQueryWhere
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause> idNotEqualTo(
-      int? id) {
+  QueryBuilder<Watering, Watering, QAfterWhereClause> idNotEqualTo(int? id) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(WhereClause(
         indexName: null,
@@ -240,7 +228,7 @@ extension WateringActionQueryWhere
     }
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause> idGreaterThan(
+  QueryBuilder<Watering, Watering, QAfterWhereClause> idGreaterThan(
     int? id, {
     bool include = false,
   }) {
@@ -251,7 +239,7 @@ extension WateringActionQueryWhere
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause> idLessThan(
+  QueryBuilder<Watering, Watering, QAfterWhereClause> idLessThan(
     int? id, {
     bool include = false,
   }) {
@@ -262,7 +250,7 @@ extension WateringActionQueryWhere
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause> idBetween(
+  QueryBuilder<Watering, Watering, QAfterWhereClause> idBetween(
     int? lowerId,
     int? upperId, {
     bool includeLower = true,
@@ -277,8 +265,8 @@ extension WateringActionQueryWhere
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause>
-      plantIdEqualTo(int plantId) {
+  QueryBuilder<Watering, Watering, QAfterWhereClause> plantIdEqualTo(
+      int plantId) {
     return addWhereClauseInternal(WhereClause(
       indexName: 'plantId',
       lower: [plantId],
@@ -288,8 +276,8 @@ extension WateringActionQueryWhere
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause>
-      plantIdNotEqualTo(int plantId) {
+  QueryBuilder<Watering, Watering, QAfterWhereClause> plantIdNotEqualTo(
+      int plantId) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(WhereClause(
         indexName: 'plantId',
@@ -313,8 +301,7 @@ extension WateringActionQueryWhere
     }
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause>
-      plantIdGreaterThan(
+  QueryBuilder<Watering, Watering, QAfterWhereClause> plantIdGreaterThan(
     int plantId, {
     bool include = false,
   }) {
@@ -325,8 +312,7 @@ extension WateringActionQueryWhere
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause>
-      plantIdLessThan(
+  QueryBuilder<Watering, Watering, QAfterWhereClause> plantIdLessThan(
     int plantId, {
     bool include = false,
   }) {
@@ -337,8 +323,7 @@ extension WateringActionQueryWhere
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterWhereClause>
-      plantIdBetween(
+  QueryBuilder<Watering, Watering, QAfterWhereClause> plantIdBetween(
     int lowerPlantId,
     int upperPlantId, {
     bool includeLower = true,
@@ -354,10 +339,10 @@ extension WateringActionQueryWhere
   }
 }
 
-extension WateringActionQueryFilter
-    on QueryBuilder<WateringAction, WateringAction, QFilterCondition> {
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      amountEqualTo(int value) {
+extension WateringQueryFilter
+    on QueryBuilder<Watering, Watering, QFilterCondition> {
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> amountEqualTo(
+      int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'amount',
@@ -365,8 +350,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      amountGreaterThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> amountGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -378,8 +362,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      amountLessThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> amountLessThan(
     int value, {
     bool include = false,
   }) {
@@ -391,8 +374,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      amountBetween(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> amountBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -407,8 +389,8 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      dateEqualTo(DateTime value) {
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> dateEqualTo(
+      DateTime value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'date',
@@ -416,8 +398,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      dateGreaterThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> dateGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -429,8 +410,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      dateLessThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> dateLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -442,8 +422,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      dateBetween(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> dateBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -458,8 +437,8 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      hashCodeEqualTo(int value) {
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> hashCodeEqualTo(
+      int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'hashCode',
@@ -467,8 +446,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      hashCodeGreaterThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> hashCodeGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -480,8 +458,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      hashCodeLessThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> hashCodeLessThan(
     int value, {
     bool include = false,
   }) {
@@ -493,8 +470,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      hashCodeBetween(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> hashCodeBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -509,8 +485,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      idIsNull() {
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> idIsNull() {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.isNull,
       property: 'id',
@@ -518,7 +493,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> idEqualTo(
       int? value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
@@ -527,8 +502,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      idGreaterThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> idGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -540,8 +514,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      idLessThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> idLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -553,7 +526,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition> idBetween(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> idBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -568,8 +541,8 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      plantIdEqualTo(int value) {
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> plantIdEqualTo(
+      int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'plantId',
@@ -577,8 +550,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      plantIdGreaterThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> plantIdGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -590,8 +562,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      plantIdLessThan(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> plantIdLessThan(
     int value, {
     bool include = false,
   }) {
@@ -603,8 +574,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      plantIdBetween(
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> plantIdBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -619,8 +589,7 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      stringifyIsNull() {
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> stringifyIsNull() {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.isNull,
       property: 'stringify',
@@ -628,8 +597,8 @@ extension WateringActionQueryFilter
     ));
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterFilterCondition>
-      stringifyEqualTo(bool? value) {
+  QueryBuilder<Watering, Watering, QAfterFilterCondition> stringifyEqualTo(
+      bool? value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'stringify',
@@ -638,170 +607,161 @@ extension WateringActionQueryFilter
   }
 }
 
-extension WateringActionQueryLinks
-    on QueryBuilder<WateringAction, WateringAction, QFilterCondition> {}
+extension WateringQueryLinks
+    on QueryBuilder<Watering, Watering, QFilterCondition> {}
 
-extension WateringActionQueryWhereSortBy
-    on QueryBuilder<WateringAction, WateringAction, QSortBy> {
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> sortByAmount() {
+extension WateringQueryWhereSortBy
+    on QueryBuilder<Watering, Watering, QSortBy> {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByAmount() {
     return addSortByInternal('amount', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy>
-      sortByAmountDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByAmountDesc() {
     return addSortByInternal('amount', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> sortByDate() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByDate() {
     return addSortByInternal('date', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> sortByDateDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByDateDesc() {
     return addSortByInternal('date', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> sortByHashCode() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByHashCode() {
     return addSortByInternal('hashCode', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy>
-      sortByHashCodeDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByHashCodeDesc() {
     return addSortByInternal('hashCode', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> sortById() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortById() {
     return addSortByInternal('id', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> sortByIdDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByIdDesc() {
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> sortByPlantId() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByPlantId() {
     return addSortByInternal('plantId', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy>
-      sortByPlantIdDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByPlantIdDesc() {
     return addSortByInternal('plantId', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> sortByStringify() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByStringify() {
     return addSortByInternal('stringify', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy>
-      sortByStringifyDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> sortByStringifyDesc() {
     return addSortByInternal('stringify', Sort.desc);
   }
 }
 
-extension WateringActionQueryWhereSortThenBy
-    on QueryBuilder<WateringAction, WateringAction, QSortThenBy> {
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> thenByAmount() {
+extension WateringQueryWhereSortThenBy
+    on QueryBuilder<Watering, Watering, QSortThenBy> {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByAmount() {
     return addSortByInternal('amount', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy>
-      thenByAmountDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByAmountDesc() {
     return addSortByInternal('amount', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> thenByDate() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByDate() {
     return addSortByInternal('date', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> thenByDateDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByDateDesc() {
     return addSortByInternal('date', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> thenByHashCode() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByHashCode() {
     return addSortByInternal('hashCode', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy>
-      thenByHashCodeDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByHashCodeDesc() {
     return addSortByInternal('hashCode', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> thenById() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenById() {
     return addSortByInternal('id', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByIdDesc() {
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> thenByPlantId() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByPlantId() {
     return addSortByInternal('plantId', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy>
-      thenByPlantIdDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByPlantIdDesc() {
     return addSortByInternal('plantId', Sort.desc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy> thenByStringify() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByStringify() {
     return addSortByInternal('stringify', Sort.asc);
   }
 
-  QueryBuilder<WateringAction, WateringAction, QAfterSortBy>
-      thenByStringifyDesc() {
+  QueryBuilder<Watering, Watering, QAfterSortBy> thenByStringifyDesc() {
     return addSortByInternal('stringify', Sort.desc);
   }
 }
 
-extension WateringActionQueryWhereDistinct
-    on QueryBuilder<WateringAction, WateringAction, QDistinct> {
-  QueryBuilder<WateringAction, WateringAction, QDistinct> distinctByAmount() {
+extension WateringQueryWhereDistinct
+    on QueryBuilder<Watering, Watering, QDistinct> {
+  QueryBuilder<Watering, Watering, QDistinct> distinctByAmount() {
     return addDistinctByInternal('amount');
   }
 
-  QueryBuilder<WateringAction, WateringAction, QDistinct> distinctByDate() {
+  QueryBuilder<Watering, Watering, QDistinct> distinctByDate() {
     return addDistinctByInternal('date');
   }
 
-  QueryBuilder<WateringAction, WateringAction, QDistinct> distinctByHashCode() {
+  QueryBuilder<Watering, Watering, QDistinct> distinctByHashCode() {
     return addDistinctByInternal('hashCode');
   }
 
-  QueryBuilder<WateringAction, WateringAction, QDistinct> distinctById() {
+  QueryBuilder<Watering, Watering, QDistinct> distinctById() {
     return addDistinctByInternal('id');
   }
 
-  QueryBuilder<WateringAction, WateringAction, QDistinct> distinctByPlantId() {
+  QueryBuilder<Watering, Watering, QDistinct> distinctByPlantId() {
     return addDistinctByInternal('plantId');
   }
 
-  QueryBuilder<WateringAction, WateringAction, QDistinct>
-      distinctByStringify() {
+  QueryBuilder<Watering, Watering, QDistinct> distinctByStringify() {
     return addDistinctByInternal('stringify');
   }
 }
 
-extension WateringActionQueryProperty
-    on QueryBuilder<WateringAction, WateringAction, QQueryProperty> {
-  QueryBuilder<WateringAction, int, QQueryOperations> amountProperty() {
+extension WateringQueryProperty
+    on QueryBuilder<Watering, Watering, QQueryProperty> {
+  QueryBuilder<Watering, int, QQueryOperations> amountProperty() {
     return addPropertyNameInternal('amount');
   }
 
-  QueryBuilder<WateringAction, DateTime, QQueryOperations> dateProperty() {
+  QueryBuilder<Watering, DateTime, QQueryOperations> dateProperty() {
     return addPropertyNameInternal('date');
   }
 
-  QueryBuilder<WateringAction, int, QQueryOperations> hashCodeProperty() {
+  QueryBuilder<Watering, int, QQueryOperations> hashCodeProperty() {
     return addPropertyNameInternal('hashCode');
   }
 
-  QueryBuilder<WateringAction, int?, QQueryOperations> idProperty() {
+  QueryBuilder<Watering, int?, QQueryOperations> idProperty() {
     return addPropertyNameInternal('id');
   }
 
-  QueryBuilder<WateringAction, int, QQueryOperations> plantIdProperty() {
+  QueryBuilder<Watering, int, QQueryOperations> plantIdProperty() {
     return addPropertyNameInternal('plantId');
   }
 
-  QueryBuilder<WateringAction, bool?, QQueryOperations> stringifyProperty() {
+  QueryBuilder<Watering, bool?, QQueryOperations> stringifyProperty() {
     return addPropertyNameInternal('stringify');
   }
 }

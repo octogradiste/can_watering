@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:can_watering/data/model/plant.dart';
-import 'package:can_watering/data/model/watering_action.dart';
+import 'package:can_watering/data/model/watering.dart';
 import 'package:can_watering/domain/bloc/plant_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,12 +10,12 @@ import 'package:intl/intl.dart';
 
 class DetailPage extends StatelessWidget {
   final Plant plant;
-  final List<WateringAction> wateringActions;
+  final List<Watering> waterings;
 
   const DetailPage({
     Key? key,
     required this.plant,
-    required this.wateringActions,
+    required this.waterings,
   }) : super(key: key);
 
   @override
@@ -33,10 +33,10 @@ class DetailPage extends StatelessWidget {
           if (state is DetailUpdateState) {
             return DetailScreen(
               plant: state.plant,
-              wateringActions: state.wateringActions,
+              waterings: state.waterings,
             );
           }
-          return DetailScreen(plant: plant, wateringActions: wateringActions);
+          return DetailScreen(plant: plant, waterings: waterings);
         },
       ),
     );
@@ -47,11 +47,11 @@ class DetailScreen extends StatelessWidget {
   const DetailScreen({
     Key? key,
     required this.plant,
-    required this.wateringActions,
+    required this.waterings,
   }) : super(key: key);
 
   final Plant plant;
-  final List<WateringAction> wateringActions;
+  final List<Watering> waterings;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class DetailScreen extends StatelessWidget {
           await showDialog(
             context: context,
             builder: (context) {
-              return WateringActionDialog(onWatering: (amount) {
+              return WateringDialog(onWatering: (amount) {
                 bloc.add(WateringEvent(plant, amount));
                 Navigator.of(context).pop();
               });
@@ -128,9 +128,9 @@ class DetailScreen extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.only(bottom: 64),
-              itemCount: wateringActions.length,
+              itemCount: waterings.length,
               itemBuilder: (((_, i) {
-                return WateringActionTile(wateringAction: wateringActions[i]);
+                return WateringTile(watering: waterings[i]);
               })),
             ),
           ),
@@ -140,13 +140,13 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
-class WateringActionTile extends StatelessWidget {
-  const WateringActionTile({
+class WateringTile extends StatelessWidget {
+  const WateringTile({
     Key? key,
-    required this.wateringAction,
+    required this.watering,
   }) : super(key: key);
 
-  final WateringAction wateringAction;
+  final Watering watering;
 
   @override
   Widget build(BuildContext context) {
@@ -155,9 +155,9 @@ class WateringActionTile extends StatelessWidget {
       child: Card(
         elevation: 6,
         child: ListTile(
-          title: Text('${wateringAction.amount} ml'),
+          title: Text('${watering.amount} ml'),
           subtitle: Text(
-            DateFormat.yMMMMEEEEd().add_Hm().format(wateringAction.date),
+            DateFormat.yMMMMEEEEd().add_Hm().format(watering.date),
           ),
         ),
       ),
@@ -165,18 +165,18 @@ class WateringActionTile extends StatelessWidget {
   }
 }
 
-class WateringActionDialog extends StatefulWidget {
+class WateringDialog extends StatefulWidget {
   final void Function(int) onWatering;
-  const WateringActionDialog({
+  const WateringDialog({
     Key? key,
     required this.onWatering,
   }) : super(key: key);
 
   @override
-  State<WateringActionDialog> createState() => _WateringActionDialogState();
+  State<WateringDialog> createState() => _WateringDialogState();
 }
 
-class _WateringActionDialogState extends State<WateringActionDialog> {
+class _WateringDialogState extends State<WateringDialog> {
   int amount = 100;
 
   @override
